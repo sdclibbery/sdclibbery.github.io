@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title>Covid-Warn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: helvetica, arial;
+    }
+    p {
+      margin:0
+    }
+  </style>
+</head>
+<body>
+  loading...
+</body>
+<script>
+  //{"areaCode":"E09000033","areaName":"Westminster","specimenDate":"2020-06-29","dailyLabConfirmedCases":0,"previouslyReportedDailyCases":null,"changeInDailyCases":null,"totalLabConfirmedCases":703,"previouslyReportedTotalCases":null,"changeInTotalCases":null,"dailyTotalLabConfirmedCasesRate":275.3}
+  //fetch('https://coronavirus.data.gov.uk/downloads/json/coronavirus-cases_latest.json')
+  const areas = ['liverpool','wirral','knowsley','st. helens']
+  fetch('https://c19downloads.azureedge.net/downloads/json/coronavirus-cases_latest.json')
+    .then(response => response.json())
+    .then(data => {
+      document.body.innerHTML = (data.ltlas
+        .filter(d => areas.includes(d.areaName.toLowerCase()))
+        .map(d => {
+          return '<p>' + d.specimenDate +' - '+ d.areaName + ': ' + d.dailyLabConfirmedCases||'0' + '</p>'
+        })
+        .join('\n')
+      )
+    })
+    .catch (error => document.write('Error:' + error));
+</script>
+</html>
