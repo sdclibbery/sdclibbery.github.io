@@ -16,10 +16,17 @@
   loading...
 </body>
 <script>
-  fetch('https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=LTLA;areaName=Liverpool&structure=%7b%22areaName%22:%22areaName%22,%22date%22:%22date%22,%22newCasesBySpecimenDate%22:%22newCasesBySpecimenDate%22%7d')
+  const urlParams = new URLSearchParams(window.location.search);
+  const myParam = urlParams.get('area') || 'Liverpool';
+  fetch('https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=LTLA;areaName='+areaName+'&structure=%22date%22:%22date%22,%22newCasesBySpecimenDate%22:%22newCasesBySpecimenDate%22%7d')
     .then(response => response.json())
     .then(data => {
-      document.body.innerHTML = JSON.stringify(data)
+      document.body.innerHTML = areaName+'<br/>\n'+data.data
+        .map(d => {
+            return '<p>' + d.date + ': ' + d.newCasesBySpecimenDate||'0' + '</p>'
+          })
+        .join('<br/>\n')
+
     })
     .catch (error => document.write('Error:' + error));
 </script>
