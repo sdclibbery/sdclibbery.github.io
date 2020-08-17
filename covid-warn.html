@@ -17,7 +17,7 @@
 </body>
 <script>
   const urlParams = new URLSearchParams(window.location.search);
-  const myParam = urlParams.get('area') || 'Liverpool';
+  const areaName = urlParams.get('area') || 'Liverpool';
   fetch('https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=LTLA;areaName='+areaName+'&structure=%22date%22:%22date%22,%22newCasesBySpecimenDate%22:%22newCasesBySpecimenDate%22%7d')
     .then(response => response.json())
     .then(data => {
