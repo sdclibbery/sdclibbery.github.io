@@ -16,19 +16,10 @@
   loading...
 </body>
 <script>
-  //{"areaCode":"E09000033","areaName":"Westminster","specimenDate":"2020-06-29","dailyLabConfirmedCases":0,"previouslyReportedDailyCases":null,"changeInDailyCases":null,"totalLabConfirmedCases":703,"previouslyReportedTotalCases":null,"changeInTotalCases":null,"dailyTotalLabConfirmedCasesRate":275.3}
-  //fetch('https://coronavirus.data.gov.uk/downloads/json/coronavirus-cases_latest.json')
-  const areas = ['liverpool','wirral','knowsley','st. helens']
-  fetch('https://c19downloads.azureedge.net/downloads/json/coronavirus-cases_latest.json')
+  fetch('https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=LTLA;areaName=Liverpool&structure=%7b%22areaName%22:%22areaName%22,%22date%22:%22date%22,%22newCasesBySpecimenDate%22:%22newCasesBySpecimenDate%22%7d')
     .then(response => response.json())
     .then(data => {
-      document.body.innerHTML = (data.ltlas
-        .filter(d => areas.includes(d.areaName.toLowerCase()))
-        .map(d => {
-          return '<p>' + d.specimenDate +' - '+ d.areaName + ': ' + d.dailyLabConfirmedCases||'0' + '</p>'
-        })
-        .join('\n')
-      )
+      document.body.innerHTML = JSON.stringify(data)
     })
     .catch (error => document.write('Error:' + error));
 </script>
